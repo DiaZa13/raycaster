@@ -104,7 +104,6 @@ while 1:
     screen.fill(Color('black'), (0, 0, 34, 22))
     # Blit → dibujar objetos
     screen.blit(updateFps(), (0, 0))
-
     clock.tick(60)
 
     pygame.display.update()
