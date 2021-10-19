@@ -1,6 +1,6 @@
 import math
 
-RAYS = 50
+RAYS = 100
 
 
 class Raycaster(object):
