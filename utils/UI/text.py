@@ -15,6 +15,7 @@ class Text(object):
         self._hover = False
         self.text = None
         self.rect = None
+        self.height = None
         self.render_text()
         self.draw_text()
 
