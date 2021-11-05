@@ -1,10 +1,11 @@
 import math
+from utils.character.enemies import Enemies
 
 RAYS = 100
 
 
 class Raycaster(object):
-    def __init__(self, screen, draw, transform):
+    def __init__(self, screen, draw, transform, enemies = None):
         self.screen = screen
         self.draw = draw
         self.transform = transform
@@ -22,6 +23,7 @@ class Raycaster(object):
         # Tamaño de los giros
         self.turn_size = 5
         self.max_distance = 200
+        self.enemies = enemies
 
     def loadMap(self, filename):
         with open(filename) as file:
@@ -124,4 +126,6 @@ class Raycaster(object):
 
         # Player
         self.drawPlayer(p_color)
+        # for enemy in self.enemies:
+        #     enemy.draw(p_color, self.screen)
         self.castRay(textures, p_color, half_width, half_height)
