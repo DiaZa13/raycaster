@@ -1,16 +1,17 @@
 from utils.UI.text import Text
 import os
 import sys
-from pygame import font, Color, Surface, SRCALPHA
+from pygame import font, Color, Surface, SRCALPHA, mixer
 
 
 class StartWindow(object):
-    def __init__(self, screen, image, transform, width, height):
+    def __init__(self, screen, image, transform, width, height, song):
         self.screen = screen
         self.image = image
         self.transform = transform
         self.width = width
         self.height = height
+        self.song = song
         self.x = None
         self.start = None
         self.exit = None
@@ -20,6 +21,11 @@ class StartWindow(object):
         self.option_menu()
         self.logo()
         self.options()
+        self.background_music()
+
+    def background_music(self):
+        mixer.music.load(self.song)
+        mixer.music.play()
 
     def background(self):
         bck = self.image.load(os.path.join('utils/textures', 'night.png'))
