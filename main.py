@@ -25,30 +25,29 @@ pygame.display.set_caption('Raycaster')
 clock = pygame.time.Clock()
 font = pygame.font.Font('utils/fonts/RoseRegular.ttf', 30)
 
-''' START PAGE '''
 start_page = StartWindow(screen, image, transform, width, height)
 
 ''' RAYCASTER '''
 filename = './utils/maps/maze.txt'
-game = GameWindow(screen, draw, transform, filename, clock, font)
+game = GameWindow(screen, draw, transform, filename, clock, font, image)
 
 # Validar en qué ventana está
 playing = False
-pause = False
 
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if not playing and not pause:
+        if not playing:
+            if game.re_render:
+                start_page = StartWindow(screen, image, transform, width, height)
+                game.re_render = False
             playing = start_page.move_options(event, pygame)
-        elif playing and not pause:
-            game.move_options(event, pygame)
+        elif playing:
             game.floor_roof(Color('gray'), Color('khaki'), Color('wheat'))
             game.render(Color('navy'), TEXTURES)
+            playing = game.move_options(event, pygame)
             game.clock_update(60, Color('black'), Color('white'))
-        else:
-            ...
 
     pygame.display.update()
 

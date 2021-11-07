@@ -4,7 +4,7 @@
 """
 
 class Text(object):
-    def __init__(self, screen, font, msg, position, color, hover_color=None, hover_font=None, ):
+    def __init__(self, screen, font, msg, position, color, hover_color=None, hover_font=None, center=False):
         self.screen = screen
         self.font = font
         self.hover_font = hover_font
@@ -16,6 +16,7 @@ class Text(object):
         self.text = None
         self.rect = None
         self.height = None
+        self.center = center
         self.render_text()
         self.draw_text()
 
@@ -28,7 +29,10 @@ class Text(object):
         font, color = self.hover()
         self.text = self.font.render(self.msg, True, color)
         self.rect = self.text.get_rect()
-        self.rect.topleft = self.position
+        if self.center:
+            self.rect.center = self.position
+        else:
+            self.rect.topleft = self.position
 
     def draw_text(self):
         self.render_text()

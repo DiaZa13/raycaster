@@ -65,7 +65,7 @@ class StartWindow(object):
             elif event.key == pygame.K_DOWN:
                 self.start._hover = False
                 self.exit._hover = True
-            elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+            if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                 if self.start._hover:
                     playing = True
                 elif self.exit._hover:
