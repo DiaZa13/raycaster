@@ -1,5 +1,5 @@
 import pygame
-from pygame import Color, image
+from pygame import Color, image, mixer
 import sys
 from utils.windows.game import GameWindow
 from utils.windows.start import StartWindow
@@ -12,7 +12,7 @@ TEXTURES = [image.load('utils/textures/wall1.png'),
             image.load('utils/textures/wall6.png')]
 
 # Pygame setup
-width = 1024
+width = 500
 height = 500
 pygame.init()
 draw = pygame.draw
@@ -25,7 +25,8 @@ pygame.display.set_caption('Raycaster')
 clock = pygame.time.Clock()
 font = pygame.font.Font('utils/fonts/RoseRegular.ttf', 30)
 
-start_page = StartWindow(screen, image, transform, width, height)
+song = 'utils/music/nightmare.mp3'
+start_page = StartWindow(screen, image, transform, width, height, song)
 
 ''' RAYCASTER '''
 filename = './utils/maps/maze.txt'

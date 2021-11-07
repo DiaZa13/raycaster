@@ -4,7 +4,13 @@ class Player(object):
         self.y = y
         self.fov = fov
         self.angle = angle
+        # Pixeles que me muevo cada que presiono una tecla
+        self.step_size = 5
+        # Tamaño de los giros
+        self.turn_size = 5
 
-    def draw(self, color, screen, size=5):
+    def draw(self, color, screen, size=15):
         rectangle = (self.x - size / 2, self.y - size / 2, size, size)
         screen.fill(color, rectangle)
+        # self.draw.circle(self.screen, color, (self.player['x'] - size / 2, self.player['y'] - size / 2), 5)
+

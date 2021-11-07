@@ -4,12 +4,13 @@ import os
 from raycasterb import Raycaster
 from pygame import font, Color, Surface, SRCALPHA
 from utils.UI.text import Text
+from character.player import Player
+from map import Map
 
 
 class GameWindow(object):
     def __init__(self, screen, draw, transform, filename, clock, font, image):
-        self.caster = Raycaster(screen, draw, transform)
-        self.caster.loadMap(filename)
+        self.caster = Raycaster(screen, draw, transform, Player(), Map(filename, 500, 500))
         self.clock = clock
         self.font = font
         self.screen = screen
@@ -28,14 +29,13 @@ class GameWindow(object):
         return fps
 
     def move_options(self, event, pygame):
-        count = 0
         playing = True
         if event.type == pygame.KEYDOWN:
             if not self.pause:
-                x = self.caster.player['x']
-                y = self.caster.player['y']
-                forward = self.caster.player['angle'] * math.pi / 180
-                right = (self.caster.player['angle'] + 90) * math.pi / 180
+                x = self.caster.player.x
+                y = self.caster.player.y
+                forward = self.caster.player.angle * math.pi / 180
+                right = (self.caster.player.angle + 90) * math.pi / 180
                 # Revisar que el evento se activo por la llave
                 if event.key == pygame.K_ESCAPE:
                     self.re_render = True
@@ -45,35 +45,34 @@ class GameWindow(object):
                         self.options()
                 elif event.key == pygame.K_w or event.key == pygame.K_RIGHT:
                     # Para poder moverme con respecto al ángulo del jugador
-                    x += math.cos(forward) * self.caster.step_size
-                    y += math.sin(forward) * self.caster.step_size
+                    x += math.cos(forward) * self.caster.player.step_size
+                    y += math.sin(forward) * self.caster.player.step_size
                     # y -= self.caster.step_size
                 elif event.key == pygame.K_s or event.key == pygame.K_LEFT:
-                    x -= math.cos(forward) * self.caster.step_size
-                    y -= math.sin(forward) * self.caster.step_size
-                    # y += self.caster.step_size
+                    x -= math.cos(forward) * self.caster.player.step_size
+                    y -= math.sin(forward) * self.caster.player.step_size
+                    # y += self.caster.player.step_size
                 elif event.key == pygame.K_a or event.key == pygame.K_UP:
-                    x -= math.cos(right) * self.caster.step_size
-                    y -= math.sin(right) * self.caster.step_size
-                    # x -= self.caster.step_size
+                    x -= math.cos(right) * self.caster.player.step_size
+                    y -= math.sin(right) * self.caster.player.step_size
+                    # x -= self.caster.player.step_size
                 elif event.key == pygame.K_d or event.key == pygame.K_DOWN:
-                    x += math.cos(right) * self.caster.step_size
-                    y += math.sin(right) * self.caster.step_size
-                    # x += self.caster.step_size
+                    x += math.cos(right) * self.caster.player.step_size
+                    y += math.sin(right) * self.caster.player.step_size
+                    # x += self.caster.player.step_size
                 elif event.key == pygame.K_q:
-                    self.caster.player['angle'] -= self.caster.turn_size
+                    self.caster.player.angle -= self.caster.player.turn_size
                 elif event.key == pygame.K_e:
-                    self.caster.player['angle'] += self.caster.turn_size
+                    self.caster.player.angle += self.caster.player.turn_size
 
                 # Evalúa que no haya pared para poderse mover
-                i = int(x / self.caster.block_size)
-                j = int(y / self.caster.block_size)
+                i = int(x / self.caster.map_surface.block_size)
+                j = int(y / self.caster.map_surface.block_size)
 
-                if self.caster.map[j][i] == ' ':
-                    self.caster.player['x'] = x
-                    self.caster.player['y'] = y
+                if self.caster.map_surface.map[j][i] == ' ':
+                    self.caster.player.x = x
+                    self.caster.player.y = y
             else:
-                # TODO ver si implemento esta vaina
                 if event.key == pygame.K_UP:
                     self.resume._hover = True
                     self.start._hover = False
@@ -130,10 +129,10 @@ class GameWindow(object):
         self.screen.fill(fill_color)
         # Techo
         self.screen.fill(roof_color,
-                         (int(self.width / 2), 0, int(self.width / 2), int(self.height / 2)))
+                         (0, 0, int(self.width), int(self.height / 2)))
         # Piso
         self.screen.fill(floor_color,
-                         (int(self.width / 2), int(self.height / 2), int(self.width / 2),
+                         (0, int(self.height / 2), int(self.width),
                           int(self.height / 2)))
 
     def render(self, color, textures):
