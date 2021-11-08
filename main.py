@@ -71,7 +71,7 @@ while 1:
             game.floor_roof(Color('gray'), Color('black'), Color('wheat'))
             game.render(Color('navy'), Color('darkorchid'), textures[game.level], levels[game.level])
             playing, x, y = game.move_options(event, pygame)
+            game.clock_update(100, Color('black'), Color('white'))
             print(x, y)
-            game.clock_update(60, Color('black'), Color('white'))
 
     pygame.display.update()

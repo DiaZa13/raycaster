@@ -4,7 +4,7 @@ import os
 from raycasterb import Raycaster
 from pygame import font, Color, Surface, SRCALPHA
 from utils.UI.text import Text
-from character.player import Player
+from utils.character.player import Player
 from map import Map
 
 

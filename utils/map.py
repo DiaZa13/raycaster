@@ -22,50 +22,6 @@ class Map(object):
         rectangle = texture.get_rect().move(x, y)
         self.map_surface.blit(texture, rectangle)
 
-    # def ray(self, angle, color, player, draw):
-    #     # El rayo se dibujará en el mismo ángulo del jugador
-    #     x = 0
-    #     y = 0
-    #     ray_angle = player.angle * math.pi / 180
-    #
-    #     if ray_angle == 0 or ray_angle == math.pi:
-    #         return None
-    #
-    #     yo = 0
-    #     xo = 0
-    #     distance = 0
-    #     # Teste con un solo rayo
-    #     for r in range(1):
-    #         # Check horizontal lines
-    #         inv_tan = - 1 / math.tan(ray_angle)
-    #         # Check if the ray is looking up/down
-    #         if ray_angle > math.pi:  # down
-    #             y = (int(player.y / self.block_size) * self.block_size) - 0.0001
-    #             yo -= self.block_size
-    #             x = (player.y - y) * inv_tan + player.x
-    #             xo = yo * inv_tan
-    #         elif ray_angle < math.pi:  # up
-    #             y = ((player.y / self.block_size) * self.block_size) + self.block_size
-    #             yo = self.block_size
-    #             x = (player.y - y) * inv_tan + player.x
-    #             xo = yo * inv_tan
-    #     while distance < 8:
-    #         i = int(x / self.block_size)
-    #         j = int(y / self.block_size)
-    #
-    #         if self.map[j][i] != ' ':
-    #             draw.line(self.map_surface, color, (player.x, player.y), (x, y))
-    #
-    #             return distance, self.map[j][i]
-    #
-    #         x += xo
-    #         y += yo
-    #         distance += 1
-    #
-    #         x_texture = 0
-
-
-
     def ray(self, angle, color, player, draw):
         ray_angle = angle * math.pi / 180
         # Revisando distancia por distancia por simplicidad
