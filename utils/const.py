@@ -17,7 +17,7 @@ L2_TEXTURES = [image.load('utils/textures/level3.png'),
                image.load('utils/textures/land9.png')]
 
 
-L3_TEXTURES = [image.load('utils/textures/level3.png'),
+L3_TEXTURES = [image.load('utils/textures/level1.png'),
                image.load('utils/textures/wall7.png'),
                image.load('utils/textures/wall9.png'),
                image.load('utils/textures/tools.png'),
@@ -39,6 +39,6 @@ L2_ENEMIES = [Sprites(90, 80, image.load('utils/sprites/enemy1.png')),
               Sprites(400, 430, image.load('utils/sprites/enemy6.png')),
               Sprites(70, 230, image.load('utils/sprites/decor3.png'))]
 
-L3_ENEMIES = [Sprites(90, 270, image.load('utils/sprites/decor_7.png')),
+L3_ENEMIES = [Sprites(75, 270, image.load('utils/sprites/decor_7.png')),
               Sprites(420, 75, image.load('utils/sprites/decor_8.png')),
               Sprites(90, 430, image.load('utils/sprites/decor_7.png'))]

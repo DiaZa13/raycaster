@@ -38,7 +38,7 @@ while 1:
             game.re_render = False
             game.pause = False
     elif playing:
-        game.floor_roof(Color('gray'), Color('darkgray'), Color('black'))
+        game.floor_roof(Color('gray'), Color('darkgray'), Color('black '))
         game.render(Color('navy'), Color('darkorchid'), textures[game.level], levels[game.level], enemies[game.level])
         game.clock_update(100, Color('black'), Color('white'))
 

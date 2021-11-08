@@ -25,7 +25,8 @@ class StartWindow(object):
 
     def background_music(self):
         mixer.music.load(self.song)
-        mixer.music.play()
+        mixer.music.set_volume(0.05)
+        mixer.music.play(-1)
 
     def background(self):
         bck = self.image.load(os.path.join('utils/textures', 'night.png'))

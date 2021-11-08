@@ -2,7 +2,6 @@ import math
 
 RAYS = 100
 
-
 class Raycaster(object):
     def __init__(self, screen, draw, transform, player):
         self.screen = screen

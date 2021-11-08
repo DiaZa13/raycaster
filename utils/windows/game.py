@@ -72,7 +72,6 @@ class GameWindow(object):
                 if self.caster.map_surface.map[j][i] == ' ' or self.caster.map_surface.map[j][i] == '0':
                     self.caster.player.x = x
                     self.caster.player.y = y
-
                 if self.caster.map_surface.map[j][i] == '0' and self.levels[0]:
                     self.levels[1] = True
                     self.levels[0] = False
@@ -81,6 +80,11 @@ class GameWindow(object):
                     self.levels[2] = True
                     self.levels[1] = False
                     self.level = 2
+                elif self.caster.map_surface.map[j][i] == '0' and self.levels[2]:
+                    self.levels[0] = True
+                    self.levels[2] = False
+                    self.level = 0
+                    playing = False
 
             else:
                 if event.key == pygame.K_UP:
