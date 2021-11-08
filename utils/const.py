@@ -1,5 +1,5 @@
 from pygame import image
-from character.sprites import Sprites
+from utils.character.sprites import Sprites
 
 L1_TEXTURES = [image.load('utils/textures/level2.png'),
                image.load('utils/textures/wall1.png'),

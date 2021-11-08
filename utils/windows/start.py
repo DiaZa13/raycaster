@@ -34,7 +34,7 @@ class StartWindow(object):
 
     def tittle(self):
         fnt = font.Font('utils/fonts/Pixel.ttf', 100)
-        maze_pos = (20, 1/2 * self.height)
+        maze_pos = (20, 1 / 2 * self.height)
         maze = Text(self.screen, fnt, 'MAZE', maze_pos, Color('white'))
         camping_pos = (20, self.height - 25 - maze.rect[3])
         Text(self.screen, fnt, 'CAMPING', camping_pos, Color('white'))
@@ -61,7 +61,6 @@ class StartWindow(object):
         self.start._hover = True
         exit_pos = (self.x + 60, int(1 / 2 * self.height) + 40)
         self.exit = Text(self.screen, fnt, 'EXIT', exit_pos, Color('black'), Color('chartreuse'), fnt)
-
 
     def move_options(self, event, pygame):
         playing = False
