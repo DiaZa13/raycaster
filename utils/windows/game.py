@@ -5,7 +5,7 @@ from raycasterb import Raycaster
 from pygame import font, Color, Surface, SRCALPHA
 from utils.UI.text import Text
 from utils.character.player import Player
-from map import Map
+from utils.map import Map
 
 
 class GameWindow(object):
