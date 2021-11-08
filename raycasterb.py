@@ -1,6 +1,6 @@
 import math
 
-RAYS = 20
+RAYS = 100
 
 
 class Raycaster(object):
@@ -9,7 +9,7 @@ class Raycaster(object):
         self.draw = draw
         self.transform = transform
         _, _, self.width, self.height = screen.get_rect()
-        self.wall_height = 50
+        self.wall_height = 40
         self.max_distance = 200
         self.map_surface = None
         self.player = player
@@ -39,7 +39,7 @@ class Raycaster(object):
             #          colors[int(identifier) - 1][2] * intensity)
 
             # TODO mejorar implementación así como la intensidad de la textura
-            texture = textures[int(identifier) - 1]
+            texture = textures[int(identifier)]
             texture = self.transform.scale(texture, (texture.get_width() * ray_width, int(perceived_height)))
             x_texture = int(x_texture * texture.get_width())
             rectangle = (x_texture, 0, ray_width, texture.get_height())

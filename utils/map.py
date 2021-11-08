@@ -41,7 +41,7 @@ class Map(object):
 
             if j < len(self.map):
                 if i < len(self.map[j]):
-                    if self.map[j][i] != ' ':
+                    if self.map[j][i] != ' ' and self.map[j][i] != '0':
 
                         hit_x = x - i * self.block_size
                         hit_y = y - j * self.block_size
@@ -78,7 +78,7 @@ class Map(object):
                         if self.map[j][i] != ' ':
                             # Esto funciona ya que después en lugar de colores se utilizarán
                             # Diferentes texturas que cada identificador de pared
-                            texture = textures[int(self.map[j][i]) - 1]
+                            texture = textures[int(self.map[j][i])]
                             self.drawBlock(x, y, texture)
 
         player.draw(p_color, self.map_surface)

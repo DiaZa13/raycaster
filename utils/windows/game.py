@@ -9,9 +9,8 @@ from utils.map import Map
 
 
 class GameWindow(object):
-    def __init__(self, screen, draw, transform, clock, image, enemies):
+    def __init__(self, screen, draw, transform, clock, image):
         self.caster = Raycaster(screen, draw, transform, Player())
-        self.caster.enemies = enemies
         self.clock = clock
         self.screen = screen
         _, _, self.width, self.height = screen.get_rect()
@@ -33,7 +32,6 @@ class GameWindow(object):
 
     def move_options(self, event, pygame):
         playing = True
-        x, y = 0, 0
         if event.type == pygame.KEYDOWN:
             if not self.pause:
                 x = self.caster.player.x
@@ -44,23 +42,21 @@ class GameWindow(object):
                 if event.key == pygame.K_ESCAPE:
                     self.re_render = True
                     self.pause = True
-                    if self.pause:
-                        self.pause_menu()
-                        self.options()
-                elif event.key == pygame.K_w or event.key == pygame.K_RIGHT:
+                    self.options()
+                elif event.key == pygame.K_w or event.key == pygame.K_UP:
                     # Para poder moverme con respecto al ángulo del jugador
                     x += math.cos(forward) * self.caster.player.step_size
                     y += math.sin(forward) * self.caster.player.step_size
                     # y -= self.caster.step_size
-                elif event.key == pygame.K_s or event.key == pygame.K_LEFT:
+                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     x -= math.cos(forward) * self.caster.player.step_size
                     y -= math.sin(forward) * self.caster.player.step_size
                     # y += self.caster.player.step_size
-                elif event.key == pygame.K_a or event.key == pygame.K_UP:
+                elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     x -= math.cos(right) * self.caster.player.step_size
                     y -= math.sin(right) * self.caster.player.step_size
                     # x -= self.caster.player.step_size
-                elif event.key == pygame.K_d or event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     x += math.cos(right) * self.caster.player.step_size
                     y += math.sin(right) * self.caster.player.step_size
                     # x += self.caster.player.step_size
@@ -73,15 +69,15 @@ class GameWindow(object):
                 i = int(x / self.caster.map_surface.block_size)
                 j = int(y / self.caster.map_surface.block_size)
 
-                if self.caster.map_surface.map[j][i] == ' ':
+                if self.caster.map_surface.map[j][i] == ' ' or self.caster.map_surface.map[j][i] == '0':
                     self.caster.player.x = x
                     self.caster.player.y = y
 
-                if 180 <= x <= 185 and 165 <= y <= 190 and self.levels[0]:
+                if self.caster.map_surface.map[j][i] == '0' and self.levels[0]:
                     self.levels[1] = True
                     self.levels[0] = False
                     self.level = 1
-                elif x == 180 and y == 65 and self.levels[1]:
+                elif self.caster.map_surface.map[j][i] == '0' and self.levels[1]:
                     self.levels[2] = True
                     self.levels[1] = False
                     self.level = 2
@@ -131,13 +127,7 @@ class GameWindow(object):
                 if self.exit.rect.collidepoint(event.pos):
                     sys.exit()
 
-        if self.pause:
-            self.pause_menu()
-            self.resume.draw_text()
-            self.start.draw_text()
-            self.exit.draw_text()
-
-        return playing, x, y
+        return playing
 
     def floor_roof(self, fill_color, floor_color, roof_color):
         self.screen.fill(fill_color)
@@ -149,7 +139,8 @@ class GameWindow(object):
                          (0, int(self.height / 2), int(self.width),
                           int(self.height / 2)))
 
-    def render(self, color, e_color, textures, filename):
+    def render(self, color, e_color, textures, filename, enemies):
+        self.caster.enemies = enemies
         self.caster.render(color, e_color, textures,  Map(filename, 500, 500))
 
     def clock_update(self, fps, bck_color, font_color):
@@ -162,10 +153,10 @@ class GameWindow(object):
 
     def pause_menu(self):
         menu_bck = Surface((self.caster.width, self.caster.height), SRCALPHA)
-        menu_bck.fill((7, 7, 7, 205))
+        menu_bck.fill((7, 7, 7, 125))
         self.screen.blit(menu_bck, (0, 0))
         # Logo
-        logo = self.image.load(os.path.join('utils/textures', 'logo2.png'))
+        logo = self.image.load(os.path.join('utils/textures', 'logo_white.png'))
         logo = self.transform.scale(logo, (180, 150))
         self.screen.blit(logo, [self.width / 2 - 90, 15])
         fnt = font.Font('utils/fonts/Pixel.ttf', 60)

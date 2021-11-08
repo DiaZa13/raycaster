@@ -33,34 +33,35 @@ class StartWindow(object):
         self.screen.blit(bck, [0, 0])
 
     def tittle(self):
-        fnt = font.Font('utils/fonts/Pixel.ttf', 120)
-        maze_pos = (20, 2 / 4 * self.height)
+        fnt = font.Font('utils/fonts/Pixel.ttf', 100)
+        maze_pos = (20, 1/2 * self.height)
         maze = Text(self.screen, fnt, 'MAZE', maze_pos, Color('white'))
         camping_pos = (20, self.height - 25 - maze.rect[3])
         Text(self.screen, fnt, 'CAMPING', camping_pos, Color('white'))
 
     def option_menu(self):
         # Menu de opciones
-        self.x = self.width - int(1 / 4 * self.width) - 130
-        menu_bck = Surface((int(1 / 3 * self.width), int(6 / 7 * self.height)), SRCALPHA)
-        menu_bck.fill((229, 236, 231, 102))
-        self.screen.blit(menu_bck, (self.x, 0))
+        self.x = self.width - int(1 / 3 * self.width) - 100
+        self.menu_bck = Surface((int(2 / 5 * self.width), int(3 / 4 * self.height)), SRCALPHA)
+        self.menu_bck.fill((229, 236, 231, 102))
 
     def logo(self):
         # Logo
-        logo = self.image.load(os.path.join('utils/textures', 'logo2.png'))
+        logo = self.image.load(os.path.join('utils/textures', 'logo.png'))
         logo = self.transform.scale(logo, (180, 150))
-        self.screen.blit(logo, [self.x + 80, 15])
+        rectangle = logo.get_rect().move(self.menu_bck.get_width() / 2 - 90, 10)
+        self.menu_bck.blit(logo, rectangle)
+        self.screen.blit(self.menu_bck, (self.x, 0))
 
     def options(self):
         # Opciones
         fnt = font.Font('utils/fonts/Pixel.ttf', 70)
-        hover_font = font.Font('utils/fonts/Pixel.ttf', 70)
-        start_pos = (self.x + 90, int(1 / 2 * self.height) - 40)
-        self.start = Text(self.screen, fnt, 'PLAY', start_pos, Color('black'), Color('chartreuse'), hover_font)
+        start_pos = (self.x + 60, int(1 / 2 * self.height) - 50)
+        self.start = Text(self.screen, fnt, 'PLAY', start_pos, Color('black'), Color(255, 193, 0, 255), fnt)
         self.start._hover = True
-        exit_pos = (self.x + 90, int(1 / 2 * self.height) + 60)
-        self.exit = Text(self.screen, fnt, 'EXIT', exit_pos, Color('black'), Color('chartreuse'), hover_font)
+        exit_pos = (self.x + 60, int(1 / 2 * self.height) + 40)
+        self.exit = Text(self.screen, fnt, 'EXIT', exit_pos, Color('black'), Color('chartreuse'), fnt)
+
 
     def move_options(self, event, pygame):
         playing = False

@@ -20,7 +20,10 @@ class Sprites(object):
         angle = math.atan2((self.y - player.y), (self.x - player.x)) * 180 / math.pi
 
         aspect_ratio = self.sprite.get_width() / self.sprite.get_height()
-        height = (screen_height / distance) * size
+        if distance > 0.001:
+            height = (screen_height / distance) * size
+        else:
+            height = 0
         width = height * aspect_ratio
 
         # Punto inicial para dibujar sprite
