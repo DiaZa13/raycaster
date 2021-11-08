@@ -9,10 +9,10 @@ from map import Map
 
 
 class GameWindow(object):
-    def __init__(self, screen, draw, transform, filename, clock, font, image):
-        self.caster = Raycaster(screen, draw, transform, Player(), Map(filename, 500, 500))
+    def __init__(self, screen, draw, transform, clock, image, enemies):
+        self.caster = Raycaster(screen, draw, transform, Player())
+        self.caster.enemies = enemies
         self.clock = clock
-        self.font = font
         self.screen = screen
         _, _, self.width, self.height = screen.get_rect()
         self.transform = transform
@@ -22,14 +22,18 @@ class GameWindow(object):
         self.start = None
         self.exit = None
         self.re_render = False
+        self.level = 0
+        self.levels = [True, False, False]
 
     def update_fps(self, color):
         fps = str(int(self.clock.get_fps()))
-        fps = self.font.render(' ' + fps, False, color)
+        fnt = font.Font('utils/fonts/RoseRegular.ttf', 30)
+        fps = fnt.render(' ' + fps, False, color)
         return fps
 
     def move_options(self, event, pygame):
         playing = True
+        x, y = 0, 0
         if event.type == pygame.KEYDOWN:
             if not self.pause:
                 x = self.caster.player.x
@@ -72,6 +76,16 @@ class GameWindow(object):
                 if self.caster.map_surface.map[j][i] == ' ':
                     self.caster.player.x = x
                     self.caster.player.y = y
+
+                if 180 <= x <= 185 and 165 <= y <= 190 and self.levels[0]:
+                    self.levels[1] = True
+                    self.levels[0] = False
+                    self.level = 1
+                elif x == 180 and y == 65 and self.levels[1]:
+                    self.levels[2] = True
+                    self.levels[1] = False
+                    self.level = 2
+
             else:
                 if event.key == pygame.K_UP:
                     self.resume._hover = True
@@ -123,7 +137,7 @@ class GameWindow(object):
             self.start.draw_text()
             self.exit.draw_text()
 
-        return playing
+        return playing, x, y
 
     def floor_roof(self, fill_color, floor_color, roof_color):
         self.screen.fill(fill_color)
@@ -135,8 +149,8 @@ class GameWindow(object):
                          (0, int(self.height / 2), int(self.width),
                           int(self.height / 2)))
 
-    def render(self, color, textures):
-        self.caster.render(color, textures)
+    def render(self, color, e_color, textures, filename):
+        self.caster.render(color, e_color, textures,  Map(filename, 500, 500))
 
     def clock_update(self, fps, bck_color, font_color):
         # FPS → frames per second

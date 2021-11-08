@@ -9,7 +9,7 @@ class Player(object):
         # Tamaño de los giros
         self.turn_size = 5
 
-    def draw(self, color, screen, size=15):
+    def draw(self, color, screen, size=10):
         rectangle = (self.x - size / 2, self.y - size / 2, size, size)
         screen.fill(color, rectangle)
         # self.draw.circle(self.screen, color, (self.player['x'] - size / 2, self.player['y'] - size / 2), 5)

@@ -1,19 +1,20 @@
 import math
-from utils.character.enemies import Enemies
 
 RAYS = 100
 
+
 class Raycaster(object):
-    def __init__(self, screen, draw, transform, player, map_surface, enemies=None):
+    def __init__(self, screen, draw, transform, player):
         self.screen = screen
         self.draw = draw
         self.transform = transform
         _, _, self.width, self.height = screen.get_rect()
         self.wall_height = 50
         self.max_distance = 200
-        self.map_surface = map_surface
+        self.map_surface = None
         self.player = player
-        self.enemies = enemies
+        self.enemies = []
+        self.zbuffer = [float('inf') for z in range(self.width)]
 
     # TODO mejorar implementación para ganar fps
     def ray(self, angle, color):
@@ -55,16 +56,21 @@ class Raycaster(object):
 
                         x_texture = hit / self.map_surface.block_size
 
-                        # self.draw.line(self.screen, color, (self.player.x, self.player.y), (x, y))
+                        # self.draw.line(self.map_surface.map_surface, color, (self.player.x, self.player.y), (x, y))
 
                         return distance, self.map_surface.map[j][i], x_texture
 
     def castRay(self, textures, ray_color, start_y):
         for column in range(RAYS):
             angle = (self.player.fov * column / RAYS) + self.player.angle - (self.player.fov / 2)
-            distance, identifier, x_texture = self.ray(angle, ray_color)
+            distance, identifier, x_texture = self.map_surface.ray(angle, ray_color, self.player, self.draw)
 
             ray_width = int((1 / RAYS) * self.width) + 1
+
+            # Z-buffer
+            for i in range(ray_width - 1):
+                self.zbuffer[column * (ray_width - 1) + i] = distance
+
             x = int((column / RAYS) * self.width)
             # perceivedHeight = screenHeight / (distance * cos(rayAngle - viewAngle)) * wallHeight
             perceived_height = self.height / (
@@ -82,11 +88,37 @@ class Raycaster(object):
             x_texture = int(x_texture * texture.get_width())
             rectangle = (x_texture, 0, ray_width, texture.get_height())
             position = (x, int(y))
-            self.screen.blit(texture, position, rectangle)
+            # self.screen.blit(texture, position, rectangle)
 
-    def render(self, p_color, textures):
+    def draw_rays(self):
+        ray_angle = player.angle
+        yo = 0
+        xo = 0
+        distance = 0
+        # Testeo con un solo rayo
+        for r in range(1):
+            # Check horizontal lines
+            inv_tan = - 1 / math.tan(ray_angle)
+            # Check if the ray is looking up/down
+            if ray_angle > math.pi:  # down
+                y = (int(player.y / self.block_size) * self.block_size) - 0.0001
+                yo -= self.block_size
+                x = (player.y - y) * inv_tan + player.x
+                xo = yo * inv_tan
+            elif ray_angle < math.pi:  # up
+                y = ((player.y / self.block_size) * self.block_size) + self.block_size
+                yo = self.block_size
+                x = (player.y - y) * inv_tan + player.x
+                xo = yo * inv_tan
+        while distance < 8:
+            i = int(x / self.block_size)
+            j = int(y / self.block_size)
+
+    def render(self, p_color, e_color, textures, map_surface):
+        self.map_surface = map_surface
         self.castRay(textures, p_color, self.height / 2)
-        self.map_surface.render(textures, 100, 100, self.player, p_color, self.screen, self.height)
+        for enemy in self.enemies:
+            enemy.addSprite(self.player, self.height, self.width, self.zbuffer, self.screen)
 
-        # for enemy in self.enemies:
-        #     enemy.draw(p_color, self.screen)
+        self.map_surface.render(textures, 100, 100, self.player, p_color, self.enemies, e_color, self.screen,
+                                self.height, self.draw)
