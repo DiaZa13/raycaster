@@ -9,7 +9,7 @@ textures = [L1_TEXTURES, L2_TEXTURES, L3_TEXTURES]
 enemies = [L1_ENEMIES, L2_ENEMIES, L3_ENEMIES]
 
 # Pygame setup
-width = 700
+width = 600
 height = 500
 pygame.init()
 draw = pygame.draw

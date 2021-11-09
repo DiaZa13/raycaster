@@ -10,11 +10,11 @@ L1_TEXTURES = [image.load('utils/textures/level2.png'),
                image.load('utils/textures/wall6.png')]
 
 L2_TEXTURES = [image.load('utils/textures/level3.png'),
-               image.load('utils/textures/land2.png'),
-               image.load('utils/textures/land5.png'),
-               image.load('utils/textures/land7.png'),
-               image.load('utils/textures/land8.png'),
-               image.load('utils/textures/land9.png')]
+               image.load('utils/textures/cwall1.png'),
+               image.load('utils/textures/cwall2.png'),
+               image.load('utils/textures/cwall3.png'),
+               image.load('utils/textures/cwall4.png'),
+               image.load('utils/textures/door3.png')]
 
 
 L3_TEXTURES = [image.load('utils/textures/level1.png'),
